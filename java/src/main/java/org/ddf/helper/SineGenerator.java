@@ -1,18 +1,99 @@
 package org.ddf.helper;
 
-public class SineGenerator {
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Polygon;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-    public String generate() {
-	for (int angle = 0; angle < 360; angle += 2) {
-	    double sin = Math.sin(Math.toRadians(angle));
-	    System.out.println(angle + " -> " + sin);
-	}
-	return null;
-    }
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class SineGenerator extends JFrame {
 
     public static void main(String[] args) {
-	SineGenerator sg = new SineGenerator();
-	sg.generate();
+	SineGenerator generator = new SineGenerator();
+	List<Point> points = generator.generateSine();
+	generator.draw(points);
+	// generator.printPoints(points);
+	generator.printCArray(points);
+    }
+
+    public void printCArray(List<Point> points) {
+	points.forEach(p -> System.out.print("0x" + Integer.toHexString(p.y).toUpperCase() + ","));
+    }
+
+    public List<Point> generateSine() {
+	List<Point> sinePoints = IntStream
+		.iterate(0, i -> i + 2)
+		.limit(181)
+		.mapToObj(
+			angle -> new Point(
+				angle,
+				(int) Math.round(Math.sin(Math.toRadians(angle)) * 127.5 + 127.5)))
+		.collect(Collectors.toList());
+
+	return sinePoints;
+    }
+
+    public void printPoints(List<Point> points) {
+	IntStream.range(0, points.size()).forEach(idx -> {
+	    Point point = points.get(idx);
+	    System.out.println(idx + " -> " + point.x + " -> " + point.y);
+	});
+    }
+
+    public void draw(List<Point> points) {
+	setLayout(new BorderLayout());
+	setSize(800, 600);
+	setTitle("WaveGenerator");
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	setLocationRelativeTo(null);
+	setVisible(true);
+	add(new DrawPanel(points), BorderLayout.CENTER);
+    }
+
+    class DrawPanel extends JPanel {
+	private final List<Point> points;
+
+	DrawPanel(List<Point> points) {
+	    this.points = points;
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+
+	    g.drawLine(50, 50, 50, 400);
+	    g.drawLine(51, 50, 51, 400);
+
+	    g.drawLine(50, 400, 600, 400);
+	    g.drawLine(50, 401, 600, 401);
+
+	    g.drawString("X", 620, 400);
+	    g.drawString("Y", 50, 30);
+
+	    Polygon polygon = points.stream().collect(
+		    Collector.of(Polygon::new, (pol, point) -> pol.addPoint(point.x + 50, 400 - point.y), (
+			    pol1,
+			    pol2) -> pol1));
+	    g.setColor(Color.red);
+	    g.drawPolyline(polygon.xpoints, polygon.ypoints, polygon.npoints);
+	}
+    }
+
+    public static final class Point {
+	public final int x;
+	public final int y;
+
+	public Point(int x, int y) {
+	    this.x = x;
+	    this.y = y;
+	}
+
     }
 
 }

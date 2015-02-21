@@ -4,6 +4,7 @@
 //add your includes for the project DDSFunctionGenerator here
 #include "Log.h"
 #include "DAC.h"
+#include "Wave.h"
 
 //end of add your includes here
 #ifdef __cplusplus

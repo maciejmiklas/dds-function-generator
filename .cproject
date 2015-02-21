@@ -120,4 +120,5 @@
 		<project id="DDSFunctionGenerator.null.1659376110" name="DDSFunctionGenerator"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
 </cproject>

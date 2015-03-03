@@ -3,7 +3,7 @@
 #include "Arduino.h"
 //add your includes for the project DDSFunctionGenerator here
 #include "Log.h"
-#include "DAC.h"
+#include "DAC_D.h"
 #include "Wave.h"
 
 //end of add your includes here

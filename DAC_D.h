@@ -1,5 +1,5 @@
-#ifndef DAC_H_
-#define DAC_H_
+#ifndef DAC_D_H_
+#define DAC_D_H_
 #include "Arduino.h"
 
 /*
@@ -9,4 +9,4 @@ void dac_setup();
 
 void dac_out(uint8_t pins);
 
-#endif /* DAC_H_ */
+#endif /* DAC_D_H_ */

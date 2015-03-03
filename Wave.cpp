@@ -1,4 +1,4 @@
-#include "DAC.h"
+#include "DAC_D.h"
 
 #define SIN_TABLE_SIZE 181
 static uint8_t  SIN_TABLE[SIN_TABLE_SIZE] = { 0x80, 0x84, 0x88, 0x8D, 0x91,
@@ -50,6 +50,7 @@ uint8_t wave_next() {
 	tableIdx++;
 	if (tableIdx == tableSize) {
 		tableIdx = 0;
+		tablePointer = &SQUARE_TABLE[0];
 	}
 	// TODO test speed
 	//return tablePointer[tableIdx];

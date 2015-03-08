@@ -2,7 +2,6 @@
 #define DDSFunctionGenerator_H_
 #include "Arduino.h"
 //add your includes for the project DDSFunctionGenerator here
-#include "Log.h"
 #include "DAC_D.h"
 #include "Wave.h"
 

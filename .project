@@ -26,4 +26,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 		<nature>it.baeyens.arduinonature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>LiquidCrystal</name>
+			<type>2</type>
+			<locationURI>ArduinoLibPath/LiquidCrystal</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

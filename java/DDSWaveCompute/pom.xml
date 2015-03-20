@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.ddf</groupId>
-	<artifactId>helper</artifactId>
+	<artifactId>DDSWaveCompute</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>DDF Function Generator Helper</name>
 	<url>https://github.com/maciejmiklas/DDSFunctionGenerator/</url>

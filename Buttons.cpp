@@ -1,7 +1,8 @@
 #include "Buttons.h"
 #include "LCD.h"
+#include "Delay.h"
 
-LiquidCrystal lcd(13, 12, 11, 10, 9, 8);
+static volatile uint32_t pressMs = 0;
 
 static void pciSetup(byte pin) {
 	*digitalPinToPCMSK(pin) |= bit(digitalPinToPCMSKbit(pin));  // enable pin
@@ -10,9 +11,6 @@ static void pciSetup(byte pin) {
 }
 
 void btn_setup() {
-	lcd.begin(16, 2);
-	lcd.noAutoscroll();
-
 	for (int i = A0; i <= A3; i++) {
 		pinMode(i, INPUT);   // set Pin as Input (default)
 		digitalWrite(i, HIGH);  // enable pullup resistor
@@ -21,17 +19,23 @@ void btn_setup() {
 }
 
 ISR (PCINT1_vect) {
-	lcd.setCursor(0, 0);
+	uint32_t ms = millis();
+	if (ms - pressMs < PRESS_MS) {
+		return;
+	}
 
-	lcd.print(digitalRead(A0));
-	lcd.print("-");
+	pressMs = ms;
+	if (digitalRead(A0) == 0) {
+		delay_step_up();
 
-	lcd.print(digitalRead(A1));
-	lcd.print("-");
+	} else if (digitalRead(A1) == 0) {
+		delay_step_down();
 
-	lcd.print(digitalRead(A2));
-	lcd.print("-");
+	} else if (digitalRead(A2) == 0) {
+		delay_freq_up();
 
-	lcd.print(digitalRead(A3));
+	} else if (digitalRead(A3) == 0) {
+		delay_freq_down();
+	}
 }
 

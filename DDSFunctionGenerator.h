@@ -4,8 +4,9 @@
 //add your includes for the project DDSFunctionGenerator here
 #include "DAC_D.h"
 #include "Wave.h"
-//#include "LCD.h"
+#include "LCD.h"
 #include "Buttons.h"
+#include "Delay.h"
 
 //end of add your includes here
 #ifdef __cplusplus

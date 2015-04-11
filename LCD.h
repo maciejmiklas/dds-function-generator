@@ -5,6 +5,7 @@
 #include <LiquidCrystal.h>
 
 void lcd_setup();
-void lcd_ln(uint8_t row, const char *fmt, ...);
+void lcd_printFreqStep(uint16_t reqStep);
+void lcd_printFreq(int32_t reqStep);
 
 #endif /* LCD_H_ */

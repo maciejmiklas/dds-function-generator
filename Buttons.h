@@ -5,7 +5,7 @@
 #include "LCD.h"
 #include "Delay.h"
 
-#define PRESS_MS 10
+#define PRESS_MS 100
 #define BTN_UP A0
 #define BTN_DOWN A1
 

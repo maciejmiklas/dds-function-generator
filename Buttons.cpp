@@ -26,16 +26,16 @@ ISR (PCINT1_vect) {
 
 	pressMs = ms;
 	if (digitalRead(A0) == 0) {
-		delay_step_up();
+		delay_freqUp();
 
 	} else if (digitalRead(A1) == 0) {
-		delay_step_down();
+		delay_freqDown();
 
 	} else if (digitalRead(A2) == 0) {
-		delay_freq_up();
+		delay_freqStep();
 
 	} else if (digitalRead(A3) == 0) {
-		delay_freq_down();
+
 	}
 }
 

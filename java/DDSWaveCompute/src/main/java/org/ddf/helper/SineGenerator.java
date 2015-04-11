@@ -48,7 +48,8 @@ public class SineGenerator extends JFrame {
 	public void printPoints(List<Point> points) {
 	IntStream.range(0, points.size()).forEach(idx -> {
 	    Point point = points.get(idx);
-	    System.out.println(idx+"("+Math.sin(Math.toRadians(point.x)) + ") -> " + point.x + " -> " + point.y);
+	    System.out.println(idx+"("+Math.sin(Math.toRadians(point.x)) + ") -> " + point.x + " -> " + point.y +" = 0x"+
+				Integer.toHexString(point.y));
 	});
     }
 

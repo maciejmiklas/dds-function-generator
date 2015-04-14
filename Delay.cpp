@@ -1,39 +1,49 @@
 #include "Delay.h"
-// 1852 Hz, 540 us pro step
-static uint32_t delayMic = 0;
+
+// 1852 Hz, 540us pro step
+static uint16_t delayNop = 0;
 static uint16_t step = 1;
 
-void delay_loop() {
-	if (delayMic > 0) {
-		delayMicroseconds(delayMic);
+void delay_setup() {
+	lcd_printFreqStep(step);
+}
+
+void delay_wait() {
+	// each iteration delays for 440 ns
+	for (uint16_t i = 0; i < delayNop; i++) {
+		NOP;
 	}
 }
 
-static void freq(uint16_t step, boolean increase) {
+uint32_t delay_waitNs() {
+	return (uint32_t) delayNop * DELAY_NOP_NS;
+}
+
+static void calcDelay(uint16_t step, boolean increase) {
 	if (increase) {
-		delayMic += step;
+		delayNop += step;
 	} else {
-		if (delayMic > step) {
-			delayMic -= step;
+		if (delayNop > step) {
+			delayNop -= step;
 		} else {
-			delayMic = 0;
+			delayNop = 0;
 		}
 	}
-	lcd_printFreq(delayMic);
+	lcd_printSteps(delayNop);
 }
-void delay_freqStep() {
+void delay_step() {
 	step *= 10;
-	if (step > FREQ_STEP_MAX) {
+	if (step > DELAY_FREQ_STEP_MAX) {
 		step = 1;
 	}
 	lcd_printFreqStep(step);
 }
 
-void delay_freqUp() {
-	freq(step, true);
+void delay_up() {
+	calcDelay(step, true);
 }
 
-void delay_freqDown() {
-	freq(step, false);
+void delay_down() {
+	calcDelay(step, false);
 }
 

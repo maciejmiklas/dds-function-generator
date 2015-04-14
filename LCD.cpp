@@ -16,38 +16,37 @@ void lcd_setup() {
 
 	// row 1
 	clcd(1);
-	lcd.print("Step:");
-}
-
-static void lcd_ln(uint8_t row, const char *fmt, ...) {
-	clcd(row);
-
-	char buf[17];
-	va_list va;
-	va_start(va, fmt);
-	vsprintf(buf, fmt, va);
-	va_end(va);
-
-	lcd.print(buf);
+	lcd.print("x     NOP:");
 }
 
 static void padRight(char *array, short from, short size) {
 	for (short int i = from; i < size; i++) {
 		array[i] = ' ';
 	}
+	array[size] = '\0';
 }
 
-void lcd_printFreqStep(uint16_t reqStep) {
-	lcd.setCursor(5, 1);
-	char buf[7];
-	short chars = sprintf(buf, "%-dus", reqStep);
-	padRight(buf, chars, 7);
+static void print(uint8_t col, uint8_t row, uint8_t size, const char *fmt, ...) {
+	lcd.setCursor(col, row);
+
+	char buf[size + 1];
+	va_list va;
+	va_start(va, fmt);
+	short chars = vsprintf(buf, fmt, va);
+	va_end(va);
+
+	padRight(buf, chars, size);
 	lcd.print(buf);
 }
 
-void lcd_printFreq(int32_t reqStep) {
-	lcd.setCursor(0, 0);
-	char buf[17];
-	sprintf(buf, "%-15lu", reqStep);
-	lcd.print(buf);
+void lcd_printFreqStep(uint16_t freqStep) {
+	print(1, 1, DELAY_FREQ_STEP_CHARS, "%d", freqStep);
+}
+
+void lcd_printFreq(uint32_t fullPeriodMicros, uint16_t freq) {
+	print(0, 0, 16, "%-10lu %d", fullPeriodMicros, freq);
+}
+
+void lcd_printSteps(uint16_t steps) {
+	print(6 + DELAY_FREQ_STEP_CHARS, 1, 6, "%d", steps);
 }

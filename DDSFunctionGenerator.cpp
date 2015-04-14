@@ -7,10 +7,11 @@ void setup() {
 	wave_setSine();
 	lcd_setup();
 	btn_setup();
+	delay_setup();
 }
 
 void loop() {
 	uint8_t outVal = wave_next();
 	dac_out(outVal);
-	delay_loop();
+	delay_wait();
 }

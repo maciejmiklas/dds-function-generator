@@ -3,9 +3,9 @@
 boolean sw = false;
 
 void setup() {
-	dac_setup();
-	wave_setSine();
 	lcd_setup();
+	dac_setup();
+	wave_setup();
 	btn_setup();
 	delay_setup();
 }

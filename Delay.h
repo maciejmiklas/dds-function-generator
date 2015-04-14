@@ -10,7 +10,7 @@
 #define NOP __asm__ __volatile__ ("nop\n\t")
 
 // delay in nanoseconds for single loop - one #NOP call in for-loop.
-#define DELAY_NOP_NS 520UL
+#define DELAY_NOP_NS 440UL
 
 void delay_setup();
 void delay_wait();

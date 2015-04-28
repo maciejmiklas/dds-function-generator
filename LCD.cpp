@@ -1,6 +1,5 @@
 #include "LCD.h"
 
-#define CH_MICRO 228
 #define CH_PI 247
 
 static LiquidCrystal lcd(13, 12, 8, 9, 10, 11);
@@ -15,17 +14,23 @@ void lcd_setup() {
 	lcd.begin(16, 2);
 	lcd.noAutoscroll();
 	// row 0
-	clcd(0);
-	lcd.print("    Hz     x");
+	uint8_t row = 0;
+	clcd(row);
+
+	lcd.setCursor(4, row);
+	lcd.print("Hz");
+
+	lcd.setCursor(11, row);
+	lcd.print("x");
 
 	// row 1
-	clcd(1);
-	lcd.print("           s/2");
+	row = 1;
+	clcd(row);
 
-	lcd.setCursor(10, 1);
-	lcd.print((char)CH_MICRO);
+	lcd.setCursor(11, row);
+	lcd.print("ns/2");
 
-	lcd.setCursor(14, 1);
+	lcd.setCursor(15, row);
 	lcd.print((char)CH_PI);
 }
 
@@ -53,7 +58,7 @@ void lcd_printFreqStep(uint16_t freqStep) {
 	print(12, 0, 4, "%-04d", freqStep);
 }
 
-void lcd_printFreq(uint32_t fullPeriodMicros, uint16_t freq) {
+void lcd_printFreq(uint32_t fullPeriodNs, uint16_t freq) {
 	print(0, 0, 4, "%4d", freq);
-	print(0, 1, 10, "%10lu", fullPeriodMicros);
+	print(1, 1, 10, "%10lu", fullPeriodNs);
 }

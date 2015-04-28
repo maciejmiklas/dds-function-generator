@@ -1,6 +1,5 @@
 #include "Delay.h"
 
-// 1852 Hz, 540us pro step
 static uint16_t delayNop = 0;
 static uint16_t step = 1;
 

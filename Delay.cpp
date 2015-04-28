@@ -15,7 +15,7 @@ void delay_wait() {
 	}
 }
 
-uint32_t delay_waitNs() {
+uint32_t delay_stepDelayNs() {
 	return (uint32_t) delayNop * DELAY_NOP_NS;
 }
 
@@ -29,7 +29,6 @@ static void calcDelay(uint16_t step, boolean increase) {
 			delayNop = 0;
 		}
 	}
-	lcd_printSteps(delayNop);
 }
 void delay_step() {
 	step *= 10;
@@ -39,11 +38,13 @@ void delay_step() {
 	lcd_printFreqStep(step);
 }
 
-void delay_up() {
+uint32_t delay_up() {
 	calcDelay(step, true);
+	return delay_stepDelayNs();
 }
 
-void delay_down() {
+uint32_t delay_down() {
 	calcDelay(step, false);
+	return delay_stepDelayNs();
 }
 

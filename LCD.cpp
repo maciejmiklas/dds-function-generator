@@ -1,5 +1,8 @@
 #include "LCD.h"
 
+#define CH_MICRO 228
+#define CH_PI 247
+
 static LiquidCrystal lcd(13, 12, 8, 9, 10, 11);
 
 static void clcd(uint8_t row) {
@@ -13,10 +16,17 @@ void lcd_setup() {
 	lcd.noAutoscroll();
 	// row 0
 	clcd(0);
+	lcd.print("    Hz     x");
 
 	// row 1
 	clcd(1);
-	lcd.print("x     NOP:");
+	lcd.print("           s/2");
+
+	lcd.setCursor(10, 1);
+	lcd.print((char)CH_MICRO);
+
+	lcd.setCursor(14, 1);
+	lcd.print((char)CH_PI);
 }
 
 static void padRight(char *array, short from, short size) {
@@ -40,13 +50,10 @@ static void print(uint8_t col, uint8_t row, uint8_t size, const char *fmt, ...) 
 }
 
 void lcd_printFreqStep(uint16_t freqStep) {
-	print(1, 1, DELAY_FREQ_STEP_CHARS, "%d", freqStep);
+	print(12, 0, 4, "%-04d", freqStep);
 }
 
 void lcd_printFreq(uint32_t fullPeriodMicros, uint16_t freq) {
-	print(0, 0, 16, "%-10lu %d", fullPeriodMicros, freq);
-}
-
-void lcd_printSteps(uint16_t steps) {
-	print(6 + DELAY_FREQ_STEP_CHARS, 1, 6, "%d", steps);
+	print(0, 0, 4, "%4d", freq);
+	print(0, 1, 10, "%10lu", fullPeriodMicros);
 }

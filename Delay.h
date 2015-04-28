@@ -4,7 +4,6 @@
 #include "LCD.h"
 
 #define DELAY_FREQ_STEP_MAX 1000
-#define DELAY_FREQ_STEP_CHARS 4
 
 // "waste" one cycle (62.5ns) on a 16MHz Arduino
 #define NOP __asm__ __volatile__ ("nop\n\t")
@@ -15,8 +14,8 @@
 void delay_setup();
 void delay_wait();
 void delay_step();
-void delay_up();
-void delay_down();
-uint32_t delay_waitNs();
+uint32_t delay_up();
+uint32_t delay_down();
+uint32_t delay_stepDelayNs();
 
 #endif /* Delay_H_ */

@@ -5,9 +5,10 @@ boolean sw = false;
 void setup() {
 	lcd_setup();
 	dac_setup();
-	wave_setup();
-	btn_setup();
 	delay_setup();
+	uint32_t stepDelayNs = delay_stepDelayNs();
+	wave_setup(stepDelayNs);
+	btn_setup();
 }
 
 void loop() {

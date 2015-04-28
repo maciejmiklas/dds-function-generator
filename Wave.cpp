@@ -16,27 +16,25 @@ static uint8_t SQUARE_TABLE[SQUARE_TABLE_SIZE] = { 0x80 };
 static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0x80 };
 
 #define SEC_TO_NS 1000000000UL
+#define SINE_PERIOD_NS ((uint32_t) WAVE_SIN_STEP_NS * SIN_TABLE_SIZE)
 
 static uint8_t *tablePointer;
 static uint8_t tableIdx;
 static uint8_t tableSize;
-static uint32_t sinePeriodNs;
 
-void wave_setup() {
-	sinePeriodNs = (uint32_t) WAVE_SIN_STEP_NS * SIN_TABLE_SIZE;
+void wave_setup(uint32_t stepDelayNs) {
 	wave_setSine();
-	wave_printFrequency();
+	wave_frequencyChange(stepDelayNs);
 }
 
 static uint32_t constPeriodNs() {
 	// TODO calculate for other waves
-	return sinePeriodNs;
+	return SINE_PERIOD_NS;
 }
-void wave_printFrequency() {
+void wave_frequencyChange(uint32_t stepDelayNs) {
 	uint32_t periodNs = constPeriodNs();
 	uint8_t steps = wave_steps();
-	uint32_t waitNs = delay_waitNs();
-	uint32_t fullPeriodNs = periodNs + waitNs * steps;
+	uint32_t fullPeriodNs = periodNs + stepDelayNs * steps;
 	uint16_t freq = SEC_TO_NS / fullPeriodNs;
 
 	lcd_printFreq(fullPeriodNs, freq);

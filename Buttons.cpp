@@ -27,12 +27,12 @@ ISR (PCINT1_vect) {
 
 	pressMs = ms;
 	if (digitalRead(A0) == 0) {
-		delay_up();
-		wave_printFrequency();
+		uint32_t stepDelayNs = delay_up();
+		wave_frequencyChange(stepDelayNs);
 
 	} else if (digitalRead(A1) == 0) {
-		delay_down();
-		wave_printFrequency();
+		uint32_t stepDelayNs = delay_down();
+		wave_frequencyChange(stepDelayNs);
 
 	} else if (digitalRead(A2) == 0) {
 		delay_step();

@@ -2,9 +2,17 @@
 
 static uint16_t delayNop = 0;
 static uint16_t step = 1;
+static uint32_t maxDelayNs = 0;
 
-void delay_setup() {
-	lcd_printFreqStep(step);
+static uint32_t calcDelayNs(uint16_t delayNop);
+static void calcDelay(uint16_t step, boolean increase);
+
+void delay_setMaxDelayNs(uint32_t _maxDelayNs) {
+	maxDelayNs = _maxDelayNs;
+}
+
+uint16_t delay_setup() {
+	return step;
 }
 
 void delay_wait() {
@@ -14,12 +22,16 @@ void delay_wait() {
 	}
 }
 
-uint32_t delay_stepDelayNs() {
+static uint32_t calcDelayNs(uint16_t delayNop) {
 	return (uint32_t) delayNop * DELAY_NOP_NS;
 }
 
+uint32_t delay_stepDelayNs() {
+	return calcDelayNs(delayNop);
+}
+
 static void calcDelay(uint16_t step, boolean increase) {
-	if (increase) {
+	if (increase && calcDelayNs(delayNop + step) <= maxDelayNs) {
 		delayNop += step;
 	} else {
 		if (delayNop > step) {
@@ -29,12 +41,13 @@ static void calcDelay(uint16_t step, boolean increase) {
 		}
 	}
 }
-void delay_step() {
+
+uint16_t delay_nextStep() {
 	step *= 10;
 	if (step > DELAY_FREQ_STEP_MAX) {
 		step = 1;
 	}
-	lcd_printFreqStep(step);
+	return step;
 }
 
 uint32_t delay_up() {

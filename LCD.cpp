@@ -4,6 +4,10 @@
 
 static LiquidCrystal lcd(13, 12, 8, 9, 10, 11);
 
+static void clcd(uint8_t row);
+static void padRight(char *array, short from, short size);
+static void print(uint8_t col, uint8_t row, uint8_t size, const char *fmt, ...) ;
+
 static void clcd(uint8_t row) {
 	lcd.setCursor(0, row);
 	lcd.print("                ");
@@ -58,7 +62,7 @@ void lcd_printFreqStep(uint16_t freqStep) {
 	print(12, 0, 4, "%-04d", freqStep);
 }
 
-void lcd_printFreq(uint32_t fullPeriodNs, uint16_t freq) {
-	print(0, 0, 4, "%4d", freq);
-	print(1, 1, 10, "%10lu", fullPeriodNs);
+void lcd_printFreq(Frequency* freq) {
+	print(0, 0, 4, "%4d", freq->freq);
+	print(1, 1, 10, "%10lu", freq->fullPeriodNs);
 }

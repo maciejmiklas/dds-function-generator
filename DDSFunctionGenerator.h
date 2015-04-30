@@ -1,12 +1,6 @@
 #ifndef DDSFunctionGenerator_H_
 #define DDSFunctionGenerator_H_
-#include "Arduino.h"
-//add your includes for the project DDSFunctionGenerator here
-#include "DAC_D.h"
-#include "Wave.h"
-#include "LCD.h"
-#include "Buttons.h"
-#include "Delay.h"
+#include "Mediator.h"
 
 //end of add your includes here
 #ifdef __cplusplus

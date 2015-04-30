@@ -1,7 +1,6 @@
 #ifndef Delay_H_
 #define Delay_H_
 #include "Arduino.h"
-#include "LCD.h"
 
 #define DELAY_FREQ_STEP_MAX 1000
 
@@ -11,11 +10,12 @@
 // delay in nanoseconds for single loop - one #NOP call in for-loop.
 #define DELAY_NOP_NS 440UL
 
-void delay_setup();
+uint16_t delay_setup();
 void delay_wait();
-void delay_step();
+uint16_t delay_nextStep();
 uint32_t delay_up();
 uint32_t delay_down();
 uint32_t delay_stepDelayNs();
+void delay_setMaxDelayNs(uint32_t _maxDelayNs);
 
 #endif /* Delay_H_ */

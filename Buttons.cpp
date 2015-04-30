@@ -1,9 +1,7 @@
 #include "Buttons.h"
-#include "LCD.h"
-#include "Delay.h"
-#include "Wave.h"
 
 static volatile uint32_t pressMs = 0;
+static void pciSetup(byte pin);
 
 static void pciSetup(byte pin) {
 	*digitalPinToPCMSK(pin) |= bit(digitalPinToPCMSKbit(pin));  // enable pin
@@ -27,18 +25,18 @@ ISR (PCINT1_vect) {
 
 	pressMs = ms;
 	if (digitalRead(A0) == 0) {
-		uint32_t stepDelayNs = delay_up();
-		wave_frequencyChange(stepDelayNs);
+		mediator_onDelayUp();
 
 	} else if (digitalRead(A1) == 0) {
-		uint32_t stepDelayNs = delay_down();
-		wave_frequencyChange(stepDelayNs);
+		mediator_onDelayDown();
 
 	} else if (digitalRead(A2) == 0) {
-		delay_step();
+		mediator_onDelayStep();
 
 	} else if (digitalRead(A3) == 0) {
-
+		mediator_onWaveNext();
 	}
 }
+
+
 

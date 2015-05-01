@@ -5,14 +5,14 @@ static void setupMaxStepDelay();
 
 void mediator_setup() {
 	lcd_setup();
+	btn_setup();
 	dac_setup();
 	uint16_t step = delay_setup();
-	lcd_printFreqStep(step);
-	setupMaxStepDelay();
-
 	uint32_t stepDelayNs = delay_stepDelayNs();
-	wave_setup(stepDelayNs, SINE);
-	btn_setup();
+	Frequency* freq = wave_setup(stepDelayNs, SINE);
+	setupMaxStepDelay();
+	lcd_printFreqStep(step);
+	lcd_printFreq(freq);
 }
 
 void mediator_loop() {

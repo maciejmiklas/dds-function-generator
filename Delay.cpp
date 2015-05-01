@@ -1,6 +1,8 @@
 #include "Delay.h"
 
 static uint16_t delayNop = 0;
+
+// change step, like x1, x10, x100, x1000
 static uint16_t step = 1;
 static uint32_t maxDelayNs = 0;
 
@@ -31,8 +33,10 @@ uint32_t delay_stepDelayNs() {
 }
 
 static void calcDelay(uint16_t step, boolean increase) {
-	if (increase && calcDelayNs(delayNop + step) <= maxDelayNs) {
-		delayNop += step;
+	if (increase) {
+		if (calcDelayNs(delayNop + step) <= maxDelayNs) {
+			delayNop += step;
+		}
 	} else {
 		if (delayNop > step) {
 			delayNop -= step;

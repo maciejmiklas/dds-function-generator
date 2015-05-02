@@ -13,9 +13,11 @@ static uint8_t SIN_TABLE[SIN_TABLE_SIZE] = { 0x80, 0x86, 0x8D, 0x93, 0x9A, 0xA0,
 
 #define SQUARE_TABLE_SIZE 2
 static uint8_t SQUARE_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0xFF };
+#define SQUARE_PERIOD_NS ((uint32_t) WAVE_SQUARE_STEP_NS * SQUARE_TABLE_SIZE)
 
-#define SAW_TABLE_SIZE 1
-static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0x00 };
+#define SAW_TABLE_SIZE 2
+static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0x00, 0x0F  };
+#define SAW_PERIOD_NS ((uint32_t) WAVE_SAW_STEP_NS * SAW_TABLE_SIZE)
 
 #define SEC_TO_NS 1000000000UL
 
@@ -30,12 +32,8 @@ static void setSine();
 static void setSquare();
 static void setSaw();
 
-Frequency* wave_setup(uint32_t stepDelayNs, Waves wave) {
-	wave_changeWave(wave);
-
+void wave_setup() {
 	frequency = (Frequency*) malloc(sizeof(Frequency));
-	wave_frequencyChange(stepDelayNs);
-	return frequency;
 }
 
 Frequency* wave_frequencyChange(uint32_t stepDelayNs) {
@@ -48,7 +46,7 @@ uint32_t wave_calcMaxstepDelayNs() {
 	return (MAX_CYCLE_TIME_NS - periodNs) / steps;
 }
 
-void wave_changeWave(Waves wave) {
+Frequency* wave_changeWave(WaveDef wave) {
 	switch (wave) {
 
 	case SQUARE:
@@ -64,6 +62,8 @@ void wave_changeWave(Waves wave) {
 		setSine();
 		break;
 	}
+
+	return wave_frequencyChange(0);
 }
 
 static void setSine() {
@@ -78,16 +78,16 @@ static void setSquare() {
 	tableSize = SIN_TABLE_SIZE;
 	tableIdx = 0;
 	tablePointer = &SQUARE_TABLE[0];
-	periodNs = 0; //TODO
-	steps = 0; //TODO
+	periodNs = SQUARE_PERIOD_NS;
+	steps = SQUARE_TABLE_SIZE;
 }
 
 static void setSaw() {
 	tableSize = SAW_TABLE_SIZE;
 	tableIdx = 0;
 	tablePointer = &SAW_TABLE[0];
-	periodNs = 0; //TODO
-	steps = 0; //TODO
+	periodNs = SAW_PERIOD_NS;
+	steps = SAW_TABLE_SIZE;
 }
 
 uint8_t wave_next() {

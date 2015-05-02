@@ -17,5 +17,5 @@ uint32_t delay_up();
 uint32_t delay_down();
 uint32_t delay_stepDelayNs();
 void delay_setMaxDelayNs(uint32_t _maxDelayNs);
-
+uint16_t delay_reset();
 #endif /* Delay_H_ */

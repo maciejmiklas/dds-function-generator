@@ -1,18 +1,26 @@
 #include "Mediator.h"
 
+static byte curentWave = SINE;
 static void updateFreq(uint32_t stepDelayNs);
 static void setupMaxStepDelay();
+static void setWave(WaveDef wave);
 
 void mediator_setup() {
 	lcd_setup();
 	btn_setup();
 	dac_setup();
-	uint16_t step = delay_setup();
-	uint32_t stepDelayNs = delay_stepDelayNs();
-	Frequency* freq = wave_setup(stepDelayNs, SINE);
+	wave_setup();
+
+	setWave(static_cast<WaveDef>(curentWave));
+}
+
+static void setWave(WaveDef wave) {
+	uint16_t step = delay_reset();
+	Frequency* freq = wave_changeWave(wave);
 	setupMaxStepDelay();
 	lcd_printFreqStep(step);
 	lcd_printFreq(freq);
+	lcd_printWave(wave);
 }
 
 void mediator_loop() {
@@ -37,8 +45,12 @@ void mediator_onDelayStep() {
 }
 
 void mediator_onWaveNext() {
-	//TODO implement
-	setupMaxStepDelay();
+	if (curentWave == SAW) {
+		curentWave = SINE;
+	} else {
+		curentWave++;
+	}
+	setWave(static_cast<WaveDef>(curentWave));
 }
 
 static void updateFreq(uint32_t stepDelayNs) {

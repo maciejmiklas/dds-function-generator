@@ -16,15 +16,16 @@ static uint8_t SQUARE_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0xFF };
 #define SQUARE_PERIOD_NS ((uint32_t) WAVE_SQUARE_STEP_NS * SQUARE_TABLE_SIZE)
 
 #define SAW_TABLE_SIZE 2
-static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0x00, 0x0F  };
+static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0x00, 0x0F };
 #define SAW_PERIOD_NS ((uint32_t) WAVE_SAW_STEP_NS * SAW_TABLE_SIZE)
 
 #define SEC_TO_NS 1000000000UL
 
-static uint8_t *tablePointer;
-static uint8_t *tableStart;
-static uint8_t tableIdx;
-static uint8_t tableSize;
+uint8_t *wave_tablePointer;
+uint8_t *wave_tableStart;
+uint8_t wave_tableIdx;
+uint8_t wave_tableSize;
+
 static Frequency* frequency;
 static uint32_t periodNs;
 
@@ -37,13 +38,13 @@ void wave_setup() {
 }
 
 Frequency* wave_frequencyChange(uint32_t stepDelayNs) {
-	frequency->fullPeriodNs = periodNs + stepDelayNs * tableSize;
+	frequency->fullPeriodNs = periodNs + stepDelayNs * wave_tableSize;
 	frequency->freq = SEC_TO_NS / frequency->fullPeriodNs;
 	return frequency;
 }
 
 uint32_t wave_calcMaxstepDelayNs() {
-	return (MAX_CYCLE_TIME_NS - periodNs) / tableSize;
+	return (MAX_CYCLE_TIME_NS - periodNs) / wave_tableSize;
 }
 
 Frequency* wave_changeWave(WaveDef wave) {
@@ -63,35 +64,27 @@ Frequency* wave_changeWave(WaveDef wave) {
 		break;
 	}
 
-	tableStart = tablePointer;
-	tableIdx = 0;
+	wave_tableStart = wave_tablePointer;
+	wave_tableIdx = 0;
 
 	return wave_frequencyChange(0);
 }
 
 static void setSine() {
-	tableSize = SIN_TABLE_SIZE;
-	tablePointer = &SIN_TABLE[0];
+	wave_tableSize = SIN_TABLE_SIZE;
+	wave_tablePointer = &SIN_TABLE[0];
 	periodNs = SINE_PERIOD_NS;
 }
 
 static void setSquare() {
-	tableSize = SQUARE_TABLE_SIZE;
-	tablePointer = &SQUARE_TABLE[0];
+	wave_tableSize = SQUARE_TABLE_SIZE;
+	wave_tablePointer = &SQUARE_TABLE[0];
 	periodNs = SQUARE_PERIOD_NS;
 }
 
 static void setSaw() {
-	tableSize = SAW_TABLE_SIZE;
-	tablePointer = &SAW_TABLE[0];
+	wave_tableSize = SAW_TABLE_SIZE;
+	wave_tablePointer = &SAW_TABLE[0];
 	periodNs = SAW_PERIOD_NS;
 }
 
-uint8_t wave_next() {
-	tableIdx++;
-	if (tableIdx == tableSize) {
-		tableIdx = 0;
-		tablePointer = tableStart;
-	}
-	return *tablePointer++;
-}

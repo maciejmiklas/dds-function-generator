@@ -11,6 +11,11 @@
 // cycle cannot take longer than 2^32 ns
 #define MAX_CYCLE_TIME_NS 2147483648UL
 
+extern uint8_t *wave_tablePointer;
+extern uint8_t *wave_tableStart;
+extern uint8_t wave_tableIdx;
+extern uint8_t wave_tableSize;
+
 typedef struct {
 	uint32_t fullPeriodNs;
 	uint16_t freq;
@@ -21,7 +26,6 @@ enum WaveDef {
 };
 
 Frequency* wave_changeWave(WaveDef wave);
-uint8_t wave_next();
 uint32_t wave_calcMaxstepDelayNs();
 Frequency* wave_frequencyChange(uint32_t stepDelayNs);
 void wave_setup();

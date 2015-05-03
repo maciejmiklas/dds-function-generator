@@ -28,7 +28,7 @@ void delay_wait() {
 }
 
 static uint32_t calcDelayNs(uint16_t delay) {
-	return (uint32_t) delay * DELAY_NOP_NS;
+	return (uint32_t) delay * DELAY_NOP_NS + (delay == 0 ? 0 : DELAY_ENABLED_NS);
 }
 
 uint32_t delay_stepDelayNs() {

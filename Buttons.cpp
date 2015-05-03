@@ -25,10 +25,10 @@ ISR (PCINT1_vect) {
 
 	pressMs = ms;
 	if (digitalRead(A0) == 0) {
-		mediator_onDelayUp();
+		mediator_onDelayDown();
 
 	} else if (digitalRead(A1) == 0) {
-		mediator_onDelayDown();
+		mediator_onDelayUp();
 
 	} else if (digitalRead(A2) == 0) {
 		mediator_onDelayStep();

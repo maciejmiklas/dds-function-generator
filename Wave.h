@@ -4,7 +4,7 @@
 #include "Arduino.h"
 
 // time for single step of sine wave. Single period consists of #SIN_TABLE_SIZE steps
-#define WAVE_SIN_STEP_NS 4273UL
+#define WAVE_SIN_STEP_NS 1327UL
 #define WAVE_SQUARE_STEP_NS 1UL //TODO
 #define WAVE_SAW_STEP_NS 1UL //TODO
 

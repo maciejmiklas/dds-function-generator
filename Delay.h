@@ -10,7 +10,6 @@
 // delay in nanoseconds for single loop - one #NOP call in for-loop.
 #define DELAY_NOP_NS 440UL
 
-uint16_t delay_setup();
 void delay_wait();
 uint16_t delay_nextStep();
 uint32_t delay_up();

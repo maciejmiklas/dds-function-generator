@@ -22,11 +22,11 @@ static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0x00, 0x0F  };
 #define SEC_TO_NS 1000000000UL
 
 static uint8_t *tablePointer;
+static uint8_t *tableStart;
 static uint8_t tableIdx;
 static uint8_t tableSize;
 static Frequency* frequency;
 static uint32_t periodNs;
-static uint8_t steps;
 
 static void setSine();
 static void setSquare();
@@ -37,13 +37,13 @@ void wave_setup() {
 }
 
 Frequency* wave_frequencyChange(uint32_t stepDelayNs) {
-	frequency->fullPeriodNs = periodNs + stepDelayNs * steps;
+	frequency->fullPeriodNs = periodNs + stepDelayNs * tableSize;
 	frequency->freq = SEC_TO_NS / frequency->fullPeriodNs;
 	return frequency;
 }
 
 uint32_t wave_calcMaxstepDelayNs() {
-	return (MAX_CYCLE_TIME_NS - periodNs) / steps;
+	return (MAX_CYCLE_TIME_NS - periodNs) / tableSize;
 }
 
 Frequency* wave_changeWave(WaveDef wave) {
@@ -63,38 +63,35 @@ Frequency* wave_changeWave(WaveDef wave) {
 		break;
 	}
 
+	tableStart = tablePointer;
+	tableIdx = 0;
+
 	return wave_frequencyChange(0);
 }
 
 static void setSine() {
 	tableSize = SIN_TABLE_SIZE;
-	tableIdx = 0;
 	tablePointer = &SIN_TABLE[0];
 	periodNs = SINE_PERIOD_NS;
-	steps = SIN_TABLE_SIZE;
 }
 
 static void setSquare() {
-	tableSize = SIN_TABLE_SIZE;
-	tableIdx = 0;
+	tableSize = SQUARE_TABLE_SIZE;
 	tablePointer = &SQUARE_TABLE[0];
 	periodNs = SQUARE_PERIOD_NS;
-	steps = SQUARE_TABLE_SIZE;
 }
 
 static void setSaw() {
 	tableSize = SAW_TABLE_SIZE;
-	tableIdx = 0;
 	tablePointer = &SAW_TABLE[0];
 	periodNs = SAW_PERIOD_NS;
-	steps = SAW_TABLE_SIZE;
 }
 
 uint8_t wave_next() {
 	tableIdx++;
 	if (tableIdx == tableSize) {
 		tableIdx = 0;
-		tablePointer = &SQUARE_TABLE[0];
+		tablePointer = tableStart;
 	}
 	return *tablePointer++;
 }

@@ -20,10 +20,6 @@ void delay_setMaxDelayNs(uint32_t _maxDelayNs) {
 	maxDelayNs = _maxDelayNs;
 }
 
-uint16_t delay_setup() {
-	return delay_reset();
-}
-
 void delay_wait() {
 	// each iteration delays for 440 ns
 	for (uint16_t i = 0; i < delayNop; i++) {

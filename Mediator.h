@@ -7,7 +7,6 @@
 #include "LCD.h"
 #include "Buttons.h"
 #include "Delay.h"
-#include "Log.h"
 
 void mediator_setup();
 void mediator_loop();

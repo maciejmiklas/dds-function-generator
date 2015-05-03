@@ -47,6 +47,7 @@ static void calcDelay(uint16_t step, boolean increase) {
 			delayNop = 0;
 		}
 	}
+	delay_on = delayNop > 0;
 }
 
 uint16_t delay_nextStep() {

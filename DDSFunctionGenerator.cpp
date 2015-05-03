@@ -5,5 +5,7 @@ void setup() {
 }
 
 void loop() {
-	mediator_loop();
+	uint8_t outVal = wave_next();
+	dac_out(outVal);
+	delay_wait();
 }

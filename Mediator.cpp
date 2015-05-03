@@ -23,12 +23,6 @@ static void setWave(WaveDef wave) {
 	lcd_printWave(wave);
 }
 
-void mediator_loop() {
-	uint8_t outVal = wave_next();
-	dac_out(outVal);
-	delay_wait();
-}
-
 void mediator_onDelayUp() {
 	uint32_t stepDelayNs = delay_up();
 	updateFreq(stepDelayNs);

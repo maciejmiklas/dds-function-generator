@@ -9,7 +9,6 @@
 #include "Delay.h"
 
 void mediator_setup();
-void mediator_loop();
 
 void mediator_onDelayUp();
 void mediator_onDelayDown();

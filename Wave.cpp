@@ -11,8 +11,9 @@ static uint8_t SIN_TABLE[SIN_TABLE_SIZE] = { 0x86, 0x8D, 0x93, 0x9A, 0xA0, 0xA7,
 // time for single sine cycle assuming delay in main loop is zero
 #define SINE_PERIOD_NS ((uint32_t) WAVE_SIN_STEP_NS * SIN_TABLE_SIZE)
 
-#define SQUARE_TABLE_SIZE 2
-static uint8_t SQUARE_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0xFF };
+#define SQUARE_TABLE_SIZE 12
+static uint8_t SQUARE_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		0xFF };
 #define SQUARE_PERIOD_NS ((uint32_t) WAVE_SQUARE_STEP_NS * SQUARE_TABLE_SIZE)
 
 #define SAW_TABLE_SIZE 52

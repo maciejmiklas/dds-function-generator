@@ -19,7 +19,7 @@ void lcd_setup() {
 	uint8_t row = 0;
 	clcd(row);
 
-	lcd.setCursor(6, row);
+	lcd.setCursor(5, row);
 	lcd.print("Hz");
 
 	lcd.setCursor(12, row);
@@ -58,7 +58,7 @@ void lcd_printFreqStep(uint16_t freqStep) {
 }
 
 void lcd_printFreq(Frequency* freq) {
-	print(0, 0, 6, "%6d", freq->freq);
+	print(0, 0, 5, "%5lu", freq->freq);
 	print(4, 1, 10, "%10lu", freq->fullPeriodNs);
 }
 

@@ -5,8 +5,8 @@
 
 // time for single step of sine wave. Single period consists of #SIN_TABLE_SIZE steps
 #define WAVE_SIN_STEP_NS 1327UL
-#define WAVE_SQUARE_STEP_NS 1UL //TODO
-#define WAVE_SAW_STEP_NS 1UL //TODO
+#define WAVE_SQUARE_STEP_NS 1402UL
+#define WAVE_SAW_STEP_NS 1327UL
 
 // cycle cannot take longer than 2^32 ns
 #define MAX_CYCLE_TIME_NS 2147483648UL
@@ -18,7 +18,7 @@ extern uint8_t wave_tableSize;
 
 typedef struct {
 	uint32_t fullPeriodNs;
-	uint16_t freq;
+	uint32_t freq;
 } Frequency;
 
 enum WaveDef {

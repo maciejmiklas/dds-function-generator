@@ -14,18 +14,6 @@
 // enabling delay function triggers extra method call, NOP loop is inside this call.
 #define DELAY_ENABLED_NS 1140UL
 
-/*
-1300
-2880
-3320
-3740
-4200
-
-460
-420
-440
- */
-
 extern boolean delay_on;
 
 void delay_wait();

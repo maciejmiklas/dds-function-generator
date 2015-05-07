@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-#define DELAY_FREQ_STEP_MAX 1000
+#define DELAY_FREQ_STEP_MAX 100
 
 // "waste" one cycle (62.5ns) on a 16MHz Arduino
 #define NOP __asm__ __volatile__ ("nop\n\t")

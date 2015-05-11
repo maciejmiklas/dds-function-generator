@@ -3,26 +3,26 @@
 #include "Arduino.h"
 
 /*
- * Initialize pins A0-A7 as output, this is the whole Port D
+ * Initialize pins D0-D7 as output, this is the whole Port D
  *
- * Mapping between bit set and voltage on output (voltage divider with: 1k-510 ohm):
- * B00000001 - 30.8 mV
- * B00000010 - 46.4 mV
- * B00000100 - 80.6 mV
- * B00001000 - 153.4 mV
- * B00010000 - 300.1 mV
- * B00100000 - 590 mV
- * B01000000 - 1.171 V
- * B10000000 - 2.34 V
+ * Mapping between bit set and voltage on output (voltage divider with: 1,5k-750ohm):
+ * B00000001 -  22 mV
+ * B00000010 -  38 mV
+ * B00000100 -  73 mV
+ * B00001000 -  140 mV
+ * B00010000 -  276 mV
+ * B00100000 -  545 mV
+ * B01000000 -  1.08 V
+ * B10000000 -  2.18 V
  *
- * B00000001 - 30.8 mV
- * B00000011 - 72.5 mV
- * B00000111 - 148.5 mV
- * B00001111 - 297.2 mV
- * B00011111 - 593 mV
- * B00111111 - 1.18 V
- * B01111111 - 2.349 V
- * B11111111 - 4.7 V
+ * B00000001 - 22 mV
+ * B00000011 - 56 mV
+ * B00000111 - 125 mV
+ * B00001111 - 265 mV
+ * B00011111 - 543 mV
+ * B00111111 - 1.1 V
+ * B01111111 - 2.23 V
+ * B11111111 - 4.47 V
  */
 void dac_setup();
 

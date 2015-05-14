@@ -15,14 +15,19 @@ int main(void) {
 #endif
 
 	mediator_setup();
+	uint16_t tableIdx = 0;
+	wave_tablePointer = wave_tableStart;
 
 	while (true) {
-		wave_tablePointer = wave_tableStart;
-		for (uint16_t tableIdx = 0; tableIdx < wave_tableSize; tableIdx++) {
-			PORTD = *(wave_tablePointer + tableIdx);
-			if (delay_on) {
-				delay_wait();
-			}
+		PORTD = *(wave_tablePointer + tableIdx);
+		if (delay_on) {
+			delay_wait();
+		}
+
+		tableIdx++;
+		if (tableIdx == wave_tableSize) {
+			wave_tablePointer = wave_tableStart;
+			tableIdx = 0;
 		}
 	}
 

@@ -18,7 +18,7 @@ int main(void) {
 
 	while (true) {
 		wave_tablePointer = wave_tableStart;
-		for (uint8_t tableIdx = 0; tableIdx < wave_tableSize; tableIdx++) {
+		for (uint16_t tableIdx = 0; tableIdx < wave_tableSize; tableIdx++) {
 			PORTD = *(wave_tablePointer + tableIdx);
 			if (delay_on) {
 				delay_wait();

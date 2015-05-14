@@ -12,7 +12,7 @@ public class SineGenerator extends JFrame {
 
 	public static void main(String[] args) {
 		SineGenerator generator = new SineGenerator();
-		List<Point> points = generator.generateSine6Bit();
+		List<Point> points = generator.generateSine8Bit();
 		generator.draw(points);
 		generator.printPoints(points);
 		generator.printCArray(points);
@@ -36,6 +36,16 @@ public class SineGenerator extends JFrame {
     }
 
 	public List<Point> generateSine8Bit() {
+		List<Point> sinePoints = IntStream
+				.iterate(0, i -> i + 1)
+				.limit(360)
+				.mapToObj(angle -> new Point(angle, (int) Math.round(Math.sin(Math.toRadians(angle)) * 127.5 + 127.5)))
+				.collect(Collectors.toList());
+
+		return sinePoints;
+	}
+
+	public List<Point> generateSine8BitHalf() {
 		List<Point> sinePoints = IntStream
 				.iterate(0, i -> i + 2)
 				.limit(181)

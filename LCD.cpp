@@ -79,6 +79,10 @@ void lcd_printWave(WaveDef wave) {
 		waveStr = "SIN";
 		break;
 
+	case SINE_MAX:
+		waveStr = "SIM";
+		break;
+
 	default:
 		waveStr = "???";
 		break;

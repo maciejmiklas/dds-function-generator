@@ -13,8 +13,8 @@
 
 extern uint8_t *wave_tablePointer;
 extern uint8_t *wave_tableStart;
-extern uint8_t wave_tableIdx;
-extern uint8_t wave_tableSize;
+extern uint16_t wave_tableIdx;
+extern uint16_t wave_tableSize;
 
 typedef struct {
 	uint32_t fullPeriodNs;
@@ -22,7 +22,7 @@ typedef struct {
 } Frequency;
 
 enum WaveDef {
-	SINE = 0, SQUARE = 1, SAW = 2
+	SINE = 0, SINE_MAX = 1, SQUARE = 2, SAW = 3
 };
 
 Frequency* wave_changeWave(WaveDef wave);

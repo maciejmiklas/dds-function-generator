@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include "LiquidCrystal.h"
 #include "Wave.h"
+#include "Util.h"
 
 void lcd_setup();
 void lcd_printFreqStep(uint16_t reqStep);

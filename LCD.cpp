@@ -3,7 +3,7 @@
 static LiquidCrystal lcd(13, 12, 8, 9, 10, 11);
 
 static void clcd(uint8_t row);
-static void padRight(char *array, short from, short size);
+static void cleanRight(char *array, short from, short size);
 static void print(uint8_t col, uint8_t row, uint8_t size, const char *fmt, ...);
 
 static void clcd(uint8_t row) {
@@ -28,12 +28,11 @@ void lcd_setup() {
 	// row 1
 	row = 1;
 	clcd(row);
-
 	lcd.setCursor(14, row);
 	lcd.print("ns");
 }
 
-static void padRight(char *array, short from, short size) {
+static void cleanRight(char *array, short from, short size) {
 	for (short int i = from; i < size; i++) {
 		array[i] = ' ';
 	}
@@ -49,7 +48,7 @@ static void print(uint8_t col, uint8_t row, uint8_t size, const char *fmt, ...) 
 	short chars = vsprintf(buf, fmt, va);
 	va_end(va);
 
-	padRight(buf, chars, size);
+	cleanRight(buf, chars, size);
 	lcd.print(buf);
 }
 
@@ -59,7 +58,12 @@ void lcd_printFreqStep(uint16_t freqStep) {
 
 void lcd_printFreq(Frequency* freq) {
 	print(0, 0, 5, "%5lu", freq->freq);
-	print(4, 1, 10, "%10lu", freq->fullPeriodNs);
+
+	// time in nanos in row 1
+	char buf[14];
+	util_flong_rigth(freq->fullPeriodNs, buf, 14);
+	lcd.setCursor(1, 1);
+	lcd.print(buf);
 }
 
 void lcd_printWave(WaveDef wave) {
@@ -91,3 +95,4 @@ void lcd_printWave(WaveDef wave) {
 	lcd.setCursor(8, 0);
 	lcd.print(waveStr);
 }
+

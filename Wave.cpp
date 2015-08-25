@@ -34,10 +34,23 @@ static uint8_t SIN_MAX_TABLE[SIN_MAX_TABLE_SIZE] = { 0x80, 0x82, 0x84, 0x86, 0x8
 		0x61, 0x63, 0x65, 0x67, 0x69, 0x6C, 0x6E, 0x70, 0x72, 0x74, 0x77, 0x79, 0x7B, 0x7D };
 #define SINE_MAX_PERIOD_NS ((uint32_t) WAVE_SIN_STEP_NS * SIN_MAX_TABLE_SIZE)
 
-#define SQUARE_TABLE_SIZE 12
-static uint8_t SQUARE_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		0xFF };
+#define SQUARE_TABLE_SIZE 20
 #define SQUARE_PERIOD_NS ((uint32_t) WAVE_SQUARE_STEP_NS * SQUARE_TABLE_SIZE)
+
+static uint8_t SQUARE10_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+
+static uint8_t SQUARE20_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+
+static uint8_t SQUARE30_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+
+static uint8_t SQUARE50_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+
+static uint8_t SQUARE70_TABLE[SQUARE_TABLE_SIZE] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+		0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0 };
 
 #define SAW_TABLE_SIZE 52
 static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90,
@@ -57,7 +70,11 @@ static uint32_t periodNs;
 
 static void setSine();
 static void setSineMax();
-static void setSquare();
+static void setSquare10();
+static void setSquare20();
+static void setSquare30();
+static void setSquare50();
+static void setSquare70();
 static void setSaw();
 
 void wave_setup() {
@@ -77,8 +94,24 @@ uint32_t wave_calcMaxstepDelayNs() {
 Frequency* wave_changeWave(WaveDef wave) {
 	switch (wave) {
 
-	case SQUARE:
-		setSquare();
+	case SQUARE_10:
+		setSquare10();
+		break;
+
+	case SQUARE_20:
+		setSquare20();
+		break;
+
+	case SQUARE_30:
+		setSquare30();
+		break;
+
+	case SQUARE_50:
+		setSquare50();
+		break;
+
+	case SQUARE_70:
+		setSquare70();
 		break;
 
 	case SAW:
@@ -113,9 +146,33 @@ static void setSine() {
 	periodNs = SINE_PERIOD_NS;
 }
 
-static void setSquare() {
+static void setSquare10() {
 	wave_tableSize = SQUARE_TABLE_SIZE;
-	wave_tablePointer = &SQUARE_TABLE[0];
+	wave_tablePointer = &SQUARE10_TABLE[0];
+	periodNs = SQUARE_PERIOD_NS;
+}
+
+static void setSquare20() {
+	wave_tableSize = SQUARE_TABLE_SIZE;
+	wave_tablePointer = &SQUARE20_TABLE[0];
+	periodNs = SQUARE_PERIOD_NS;
+}
+
+static void setSquare30() {
+	wave_tableSize = SQUARE_TABLE_SIZE;
+	wave_tablePointer = &SQUARE30_TABLE[0];
+	periodNs = SQUARE_PERIOD_NS;
+}
+
+static void setSquare50() {
+	wave_tableSize = SQUARE_TABLE_SIZE;
+	wave_tablePointer = &SQUARE50_TABLE[0];
+	periodNs = SQUARE_PERIOD_NS;
+}
+
+static void setSquare70() {
+	wave_tableSize = SQUARE_TABLE_SIZE;
+	wave_tablePointer = &SQUARE70_TABLE[0];
 	periodNs = SQUARE_PERIOD_NS;
 }
 

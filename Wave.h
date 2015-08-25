@@ -22,7 +22,16 @@ typedef struct {
 } Frequency;
 
 enum WaveDef {
-	SINE = 0, SINE_MAX = 1, SQUARE = 2, SAW = 3
+	SINE = 0,
+	SINE_MAX = 1,
+	SAW = 2,
+	SQUARE_10 = 3,
+	SQUARE_20 = 4,
+	SQUARE_30 = 5,
+	SQUARE_50 = 6,
+	SQUARE_70 = 7,
+	_FIRST = SINE,
+	_LAST = SQUARE_70
 };
 
 Frequency* wave_changeWave(WaveDef wave);

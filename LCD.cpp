@@ -71,8 +71,24 @@ void lcd_printWave(WaveDef wave) {
 
 	switch (wave) {
 
-	case SQUARE:
-		waveStr = "SQR";
+	case SQUARE_10:
+		waveStr = "S10";
+		break;
+
+	case SQUARE_20:
+		waveStr = "S20";
+		break;
+
+	case SQUARE_30:
+		waveStr = "S30";
+		break;
+
+	case SQUARE_50:
+		waveStr = "S50";
+		break;
+
+	case SQUARE_70:
+		waveStr = "S70";
 		break;
 
 	case SAW:

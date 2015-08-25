@@ -39,8 +39,8 @@ void mediator_onDelayStep() {
 }
 
 void mediator_onWaveNext() {
-	if (curentWave == SAW) {
-		curentWave = SINE;
+	if (curentWave == _LAST) {
+		curentWave = _FIRST;
 	} else {
 		curentWave++;
 	}

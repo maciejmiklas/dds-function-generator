@@ -20,7 +20,10 @@ void delay_wait();
 uint16_t delay_nextStep();
 uint32_t delay_up();
 uint32_t delay_down();
-uint32_t delay_stepDelayNs();
 void delay_setup(uint32_t _maxDelayNs, uint16_t _initDelayNop);
+
+inline uint32_t delay_calcDelayNs(uint16_t delayNop) {
+	return (uint32_t) delayNop * DELAY_NOP_NS + (delayNop == 0 ? 0 : DELAY_ENABLED_NS);
+}
 
 #endif /* Delay_H_ */

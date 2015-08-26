@@ -92,7 +92,7 @@ uint16_t wave_getInitDelayNop() {
 	return initDelayNop;
 }
 
-Frequency* wave_changeWave(WaveDef wave) {
+void wave_changeWave(WaveDef wave) {
 	initDelayNop = 0;
 	switch (wave) {
 
@@ -132,7 +132,6 @@ Frequency* wave_changeWave(WaveDef wave) {
 
 	wave_tableStart = wave_tablePointer;
 	wave_tableIdx = 0;
-	return wave_frequencyChange(0);
 }
 
 static void setSineMax() {

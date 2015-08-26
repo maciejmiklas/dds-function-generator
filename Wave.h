@@ -34,7 +34,7 @@ enum WaveDef {
 	_LAST = SQUARE_70
 };
 
-Frequency* wave_changeWave(WaveDef wave);
+void wave_changeWave(WaveDef wave);
 uint32_t wave_calcMaxstepDelayNs();
 Frequency* wave_frequencyChange(uint32_t stepDelayNs);
 void wave_setup();

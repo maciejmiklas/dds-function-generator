@@ -14,8 +14,12 @@ void mediator_setup() {
 }
 
 static void changeWave(WaveDef wave) {
-	delay_setup(wave_calcMaxstepDelayNs(), wave_getInitDelayNop());
-	Frequency* freq = wave_changeWave(wave);
+	wave_changeWave(wave);
+
+	uint16_t initDelayNop = wave_getInitDelayNop();
+	delay_setup(wave_calcMaxstepDelayNs(), initDelayNop);
+	Frequency* freq = wave_frequencyChange(delay_calcDelayNs(initDelayNop));
+
 	lcd_printFreqStep(1);
 	lcd_printFreq(freq);
 	lcd_printWave(wave);

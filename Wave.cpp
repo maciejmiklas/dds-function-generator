@@ -34,23 +34,18 @@ static uint8_t SIN_MAX_TABLE[SIN_MAX_TABLE_SIZE] = { 0x80, 0x82, 0x84, 0x86, 0x8
 		0x61, 0x63, 0x65, 0x67, 0x69, 0x6C, 0x6E, 0x70, 0x72, 0x74, 0x77, 0x79, 0x7B, 0x7D };
 #define SINE_MAX_PERIOD_NS ((uint32_t) WAVE_SIN_STEP_NS * SIN_MAX_TABLE_SIZE)
 
-#define SQUARE_TABLE_SIZE 20
+#define SQUARE_TABLE_SIZE 10
 #define SQUARE_PERIOD_NS ((uint32_t) WAVE_SQUARE_STEP_NS * SQUARE_TABLE_SIZE)
 
-static uint8_t SQUARE10_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+static uint8_t SQUARE10_TABLE[SQUARE_TABLE_SIZE] = { 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static uint8_t SQUARE20_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+static uint8_t SQUARE20_TABLE[SQUARE_TABLE_SIZE] = { 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static uint8_t SQUARE30_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+static uint8_t SQUARE30_TABLE[SQUARE_TABLE_SIZE] = { 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static uint8_t SQUARE50_TABLE[SQUARE_TABLE_SIZE] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF,
-		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+static uint8_t SQUARE50_TABLE[SQUARE_TABLE_SIZE] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static uint8_t SQUARE70_TABLE[SQUARE_TABLE_SIZE] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-		0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0 };
+static uint8_t SQUARE70_TABLE[SQUARE_TABLE_SIZE] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00 };
 
 #define SAW_TABLE_SIZE 52
 static uint8_t SAW_TABLE[SAW_TABLE_SIZE] = { 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90,
@@ -67,6 +62,7 @@ uint16_t wave_tableSize;
 
 static Frequency* frequency;
 static uint32_t periodNs;
+static uint16_t initDelayNop = 0;
 
 static void setSine();
 static void setSineMax();
@@ -76,6 +72,7 @@ static void setSquare30();
 static void setSquare50();
 static void setSquare70();
 static void setSaw();
+static void setSquareGen();
 
 void wave_setup() {
 	frequency = (Frequency*) malloc(sizeof(Frequency));
@@ -91,7 +88,12 @@ uint32_t wave_calcMaxstepDelayNs() {
 	return (MAX_CYCLE_TIME_NS - periodNs) / wave_tableSize;
 }
 
+uint16_t wave_getInitDelayNop() {
+	return initDelayNop;
+}
+
 Frequency* wave_changeWave(WaveDef wave) {
+	initDelayNop = 0;
 	switch (wave) {
 
 	case SQUARE_10:
@@ -130,7 +132,6 @@ Frequency* wave_changeWave(WaveDef wave) {
 
 	wave_tableStart = wave_tablePointer;
 	wave_tableIdx = 0;
-
 	return wave_frequencyChange(0);
 }
 
@@ -147,38 +148,39 @@ static void setSine() {
 }
 
 static void setSquare10() {
-	wave_tableSize = SQUARE_TABLE_SIZE;
+	setSquareGen();
 	wave_tablePointer = &SQUARE10_TABLE[0];
-	periodNs = SQUARE_PERIOD_NS;
 }
 
 static void setSquare20() {
-	wave_tableSize = SQUARE_TABLE_SIZE;
+	setSquareGen();
 	wave_tablePointer = &SQUARE20_TABLE[0];
-	periodNs = SQUARE_PERIOD_NS;
 }
 
 static void setSquare30() {
-	wave_tableSize = SQUARE_TABLE_SIZE;
+	setSquareGen();
 	wave_tablePointer = &SQUARE30_TABLE[0];
-	periodNs = SQUARE_PERIOD_NS;
 }
 
 static void setSquare50() {
-	wave_tableSize = SQUARE_TABLE_SIZE;
+	setSquareGen();
 	wave_tablePointer = &SQUARE50_TABLE[0];
-	periodNs = SQUARE_PERIOD_NS;
 }
 
 static void setSquare70() {
-	wave_tableSize = SQUARE_TABLE_SIZE;
+	setSquareGen();
 	wave_tablePointer = &SQUARE70_TABLE[0];
-	periodNs = SQUARE_PERIOD_NS;
 }
 
 static void setSaw() {
 	wave_tableSize = SAW_TABLE_SIZE;
 	wave_tablePointer = &SAW_TABLE[0];
 	periodNs = SAW_PERIOD_NS;
+}
+
+static void setSquareGen() {
+	initDelayNop = 20;
+	wave_tableSize = SQUARE_TABLE_SIZE;
+	periodNs = SQUARE_PERIOD_NS;
 }
 

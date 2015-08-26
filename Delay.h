@@ -14,14 +14,13 @@
 // enabling delay function triggers extra method call, NOP loop is inside this call.
 #define DELAY_ENABLED_NS 1140UL
 
-extern boolean delay_on;
+extern boolean delayOn;
 
 void delay_wait();
 uint16_t delay_nextStep();
 uint32_t delay_up();
 uint32_t delay_down();
 uint32_t delay_stepDelayNs();
-void delay_setMaxDelayNs(uint32_t _maxDelayNs);
-uint16_t delay_reset();
+void delay_setup(uint32_t _maxDelayNs, uint16_t _initDelayNop);
 
 #endif /* Delay_H_ */

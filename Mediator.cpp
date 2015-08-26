@@ -2,8 +2,7 @@
 
 static byte curentWave = SINE;
 static void updateFreq(uint32_t stepDelayNs);
-static void setupMaxStepDelay();
-static void setWave(WaveDef wave);
+static void changeWave(WaveDef wave);
 
 void mediator_setup() {
 	lcd_setup();
@@ -11,14 +10,13 @@ void mediator_setup() {
 	dac_setup();
 	wave_setup();
 
-	setWave(static_cast<WaveDef>(curentWave));
+	changeWave(static_cast<WaveDef>(curentWave));
 }
 
-static void setWave(WaveDef wave) {
-	uint16_t step = delay_reset();
+static void changeWave(WaveDef wave) {
+	delay_setup(wave_calcMaxstepDelayNs(), wave_getInitDelayNop());
 	Frequency* freq = wave_changeWave(wave);
-	setupMaxStepDelay();
-	lcd_printFreqStep(step);
+	lcd_printFreqStep(1);
 	lcd_printFreq(freq);
 	lcd_printWave(wave);
 }
@@ -44,7 +42,7 @@ void mediator_onWaveNext() {
 	} else {
 		curentWave++;
 	}
-	setWave(static_cast<WaveDef>(curentWave));
+	changeWave(static_cast<WaveDef>(curentWave));
 }
 
 static void updateFreq(uint32_t stepDelayNs) {
@@ -52,7 +50,3 @@ static void updateFreq(uint32_t stepDelayNs) {
 	lcd_printFreq(freq);
 }
 
-static void setupMaxStepDelay() {
-	uint32_t maxDelayNs = wave_calcMaxstepDelayNs();
-	delay_setMaxDelayNs(maxDelayNs);
-}

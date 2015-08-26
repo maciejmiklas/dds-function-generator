@@ -3,21 +3,17 @@
 // change step, like x1, x10, x100, x1000
 static uint16_t step;
 static uint32_t maxDelayNs;
+static uint16_t initDelayNop;
 static uint16_t delayNop;
 static uint32_t calcDelayNs(uint16_t delay);
-static void calcDelay(uint16_t step, boolean increase);
-boolean delay_on;
+boolean delayOn;
 
-uint16_t delay_reset() {
+void delay_setup(uint32_t _maxDelayNs, uint16_t _initDelayNop) {
 	step = 1;
-	maxDelayNs = 0;
-	delayNop = 0;
-	delay_on = false;
-	return step;
-}
-
-void delay_setMaxDelayNs(uint32_t _maxDelayNs) {
 	maxDelayNs = _maxDelayNs;
+	initDelayNop = _initDelayNop;
+	delayNop = _initDelayNop;
+	delayOn = _initDelayNop > 0;
 }
 
 void delay_wait() {
@@ -35,21 +31,6 @@ uint32_t delay_stepDelayNs() {
 	return calcDelayNs(delayNop);
 }
 
-static void calcDelay(uint16_t step, boolean increase) {
-	if (increase) {
-		if (calcDelayNs(delayNop + step) <= maxDelayNs) {
-			delayNop += step;
-		}
-	} else {
-		if (delayNop > step) {
-			delayNop -= step;
-		} else {
-			delayNop = 0;
-		}
-	}
-	delay_on = delayNop > 0;
-}
-
 uint16_t delay_nextStep() {
 	step *= 10;
 	if (step > DELAY_FREQ_STEP_MAX) {
@@ -59,12 +40,22 @@ uint16_t delay_nextStep() {
 }
 
 uint32_t delay_up() {
-	calcDelay(step, true);
+	if (calcDelayNs(delayNop + step) <= maxDelayNs) {
+		delayNop += step;
+	}
+
+	delayOn = delayNop > 0;
 	return delay_stepDelayNs();
 }
 
 uint32_t delay_down() {
-	calcDelay(step, false);
+	if (delayNop > step) {
+		delayNop -= step;
+	} else {
+		delayNop = initDelayNop;
+	}
+
+	delayOn = delayNop > 0;
 	return delay_stepDelayNs();
 }
 

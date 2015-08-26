@@ -22,8 +22,6 @@ ISR (PCINT1_vect) {
 	if (ms - pressMs < PRESS_MS) {
 		return;
 	}
-
-	pressMs = ms;
 	if (digitalRead(A0) == 0) {
 		mediator_onDelayDown();
 
@@ -36,7 +34,7 @@ ISR (PCINT1_vect) {
 	} else if (digitalRead(A3) == 0) {
 		mediator_onWaveNext();
 	}
+
+	pressMs = ms;
 }
-
-
 

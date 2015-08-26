@@ -20,7 +20,7 @@ int main(void) {
 
 	while (true) {
 		PORTD = *(wave_tablePointer + tableIdx);
-		if (delay_on) {
+		if (delayOn) {
 			delay_wait();
 		}
 

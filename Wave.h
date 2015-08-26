@@ -38,5 +38,6 @@ Frequency* wave_changeWave(WaveDef wave);
 uint32_t wave_calcMaxstepDelayNs();
 Frequency* wave_frequencyChange(uint32_t stepDelayNs);
 void wave_setup();
+uint16_t wave_getInitDelayNop();
 
 #endif /* WAVE_H_ */

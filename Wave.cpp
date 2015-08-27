@@ -64,6 +64,12 @@ static Frequency* frequency;
 static uint32_t periodNs;
 static uint16_t initDelayNop = 0;
 
+// change step, like x1, x10, x100, x1000
+static uint32_t maxDelayNs;
+static uint16_t delayNop = 0;
+boolean wave_delayOn;
+static byte curentWave = SINE;
+
 static void setSine();
 static void setSineMax();
 static void setSquare10();
@@ -73,26 +79,48 @@ static void setSquare50();
 static void setSquare70();
 static void setSaw();
 static void setSquareGen();
+static Frequency* recalculateFrequency();
+static uint32_t calcDelayNs(uint16_t delayNop);
+static uint32_t calcMaxStepDelayNs();
+static void changeWave(WaveDef wave);
 
-void wave_setup() {
-	frequency = (Frequency*) malloc(sizeof(Frequency));
+Frequency* wave_netxWave(){
+	if (curentWave == _LAST) {
+		curentWave = _FIRST;
+	} else {
+		curentWave++;
+	}
+	frequency->wave = static_cast<WaveDef>(curentWave);
+	changeWave(static_cast<WaveDef>(curentWave));
+	return frequency;
 }
 
-Frequency* wave_frequencyChange(uint32_t stepDelayNs) {
+Frequency* wave_setup() {
+	frequency = (Frequency*) malloc(sizeof(Frequency));
+	frequency->wave = static_cast<WaveDef>(curentWave);
+	frequency->delayStep = WAVE_FREQ_STEP_INIT;
+
+	changeWave(static_cast<WaveDef>(curentWave));
+	return frequency;
+}
+
+static inline uint32_t calcDelayNs(uint16_t delayNop) {
+	return (uint32_t) delayNop * WAVE_NOP_NS + (delayNop == 0 ? 0 : WAVE_DELAY_ENABLED_NS);
+}
+
+static Frequency* recalculateFrequency() {
+	wave_delayOn = delayNop > 0;
+	uint32_t stepDelayNs = calcDelayNs(delayNop);
 	frequency->fullPeriodNs = periodNs + stepDelayNs * wave_tableSize;
 	frequency->freq = SEC_TO_NS / frequency->fullPeriodNs;
 	return frequency;
 }
 
-uint32_t wave_calcMaxstepDelayNs() {
-	return (MAX_CYCLE_TIME_NS - periodNs) / wave_tableSize;
+static inline uint32_t calcMaxStepDelayNs() {
+	return (WAVE_MAX_CYCLE_TIME_NS - periodNs) / wave_tableSize;
 }
 
-uint16_t wave_getInitDelayNop() {
-	return initDelayNop;
-}
-
-void wave_changeWave(WaveDef wave) {
+static void changeWave(WaveDef wave) {
 	initDelayNop = 0;
 	switch (wave) {
 
@@ -132,6 +160,12 @@ void wave_changeWave(WaveDef wave) {
 
 	wave_tableStart = wave_tablePointer;
 	wave_tableIdx = 0;
+
+	frequency->delayStep = WAVE_FREQ_STEP_INIT;
+	maxDelayNs = calcMaxStepDelayNs();
+	delayNop = initDelayNop;
+
+	recalculateFrequency();
 }
 
 static void setSineMax() {
@@ -181,5 +215,36 @@ static void setSquareGen() {
 	initDelayNop = 20;
 	wave_tableSize = SQUARE_TABLE_SIZE;
 	periodNs = SQUARE_PERIOD_NS;
+}
+
+void wave_wait() {
+	// each iteration delays for 440 ns
+	for (uint16_t i = 0; i < delayNop; i++) {
+		NOP;
+	}
+}
+
+uint16_t wave_delayNextStep() {
+	frequency->delayStep *= 10;
+	if (frequency->delayStep > WAVE_FREQ_STEP_MAX) {
+		frequency->delayStep = WAVE_FREQ_STEP_INIT;
+	}
+	return frequency->delayStep;
+}
+
+Frequency* wave_delayUp() {
+	if (calcDelayNs(delayNop + frequency->delayStep) <= maxDelayNs) {
+		delayNop += frequency->delayStep;
+	}
+	return recalculateFrequency();
+}
+
+Frequency* wave_delayDown() {
+	if (delayNop > frequency->delayStep) {
+		delayNop -= frequency->delayStep;
+	} else {
+		delayNop = initDelayNop;
+	}
+	return recalculateFrequency();
 }
 

@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "Mediator.h"
 
-#define PRESS_MS 100
+const static uint8_t PRESS_MS = 100;
 
 void btn_setup();
 

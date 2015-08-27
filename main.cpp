@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "Mediator.h"
-#include "Delay.h"
 
 //Declared weak in Arduino.h to allow user redefinitions.
 int atexit(void (*func)()) {
@@ -20,8 +19,8 @@ int main(void) {
 
 	while (true) {
 		PORTD = *(wave_tablePointer + tableIdx);
-		if (delayOn) {
-			delay_wait();
+		if (wave_delayOn) {
+			wave_wait();
 		}
 
 		tableIdx++;

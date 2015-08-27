@@ -6,7 +6,6 @@
 #include "Wave.h"
 #include "LCD.h"
 #include "Buttons.h"
-#include "Delay.h"
 
 void mediator_setup();
 

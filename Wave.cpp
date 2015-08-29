@@ -84,7 +84,7 @@ static uint32_t calcDelayNs(uint16_t delayNop);
 static uint32_t calcMaxStepDelayNs();
 static void changeWave(WaveDef wave);
 
-Frequency* wave_netxWave(){
+Frequency* wave_netxWave() {
 	if (curentWave == _LAST) {
 		curentWave = _FIRST;
 	} else {
@@ -161,9 +161,10 @@ static void changeWave(WaveDef wave) {
 	wave_tableStart = wave_tablePointer;
 	wave_tableIdx = 0;
 
-	frequency->delayStep = WAVE_FREQ_STEP_INIT;
 	maxDelayNs = calcMaxStepDelayNs();
-	delayNop = initDelayNop;
+	if (delayNop < initDelayNop) {
+		delayNop = initDelayNop;
+	}
 
 	recalculateFrequency();
 }

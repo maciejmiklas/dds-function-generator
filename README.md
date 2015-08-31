@@ -6,7 +6,7 @@ There is also a good motivation to optimize the code - each extra operation cons
 <img src="/doc/dev1.jpg" width="400px"/>
 <img src="/doc/dev2.jpg" width="400px"/>
 <img src="/doc/dev3.jpg" width="400px"/>
-<img src="/fritzing/DDS Generator_schem.jpg" width="800px"/>
+<img src="/fritzing/DDS Generator_schem.jpg" width="600px"/>
 
 #Generated wave signals
 ## Sine with 120 probes per period

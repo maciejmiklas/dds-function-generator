@@ -10,22 +10,23 @@ There is also a good motivation to optimize the code - each extra operation cons
 
 #Generated wave signals
 ## Sine with 120 probes per period
-![sine 5.5 KHz, 120 probes](/doc/wave_sine__120_5.5KHz.jpg)
-![sine 10 KHz, 120 probes](/doc/wave_sine__120_10Hz.jpg)
+<img src="/doc/wave_sine__120_5.5KHz.jpg" alt="sine 5.5 KHz, 120 probes" width="600px"/>
+<img src="/doc/wave_sine__120_10Hz.jpg" alt="sine 10 KHz, 120 probes" width="600px"/>
 
 ## Sine with 360 probes per period
 Max frequency is limited to 1.8Khz where sine with 120 steps reaches 5.58Khz
-![sine 1.8 KHz, 360 probes](/doc/wave_sine__360_1.8KHz.jpg)
+<img src="/doc/wave_sine__360_1.8KHz.jpg" alt="sine 1.8 KHz, 360 probes" width="600px"/>
 
 Signal at 10Hz is smoother when compared to sine with 120 steps.
-![sine 10 KHz, 360 probes](/doc/wave_sine__360_10Hz.jpg)
- 
+<img src="/doc/wave_sine__360_10Hz.jpg" alt="sine 10 KHz, 360 probes" width="600px"/>
+
 ## Square
 Following duty cycles are available: 10%, 20%, 30%, 50% (on screen-shot below) and 70%
-![square ](/doc/wave_square.jpg)
- 
+<img src="/doc/wave_square.jpg" width="600px"/>
+
 ## Saw
-![square ](/doc/wave_saw.jpg) 
+<img src="/doc/wave_saw.jpg" width="600px"/>
+
 
 # Wave Generator
  Wave Generator

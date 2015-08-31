@@ -6,7 +6,7 @@ There is also a good motivation to optimize the code - each extra operation cons
 <img src="/doc/dev1.jpg" width="400px"/>
 <img src="/doc/dev2.jpg" width="400px"/>
 <img src="/doc/dev3.jpg" width="400px"/>
-<img src="/doc/DDS Generator_schem.jpg" width="800px"/>
+<img src="/fritzing/DDS Generator_schem.jpg" width="800px"/>
 
 #Generated wave signals
 ## Sine with 120 probes per period
@@ -31,27 +31,16 @@ Following duty cycles are available: 10%, 20%, 30%, 50% (on screen-shot below) a
  Wave Generator
 Arduino does not have Analog to Digital converter - there is only PWM generator, but in order to generate smooth wave we need stable analog voltage. Common pattern to solve this problem is to take a few digital outputs and connect them together trough voltage divider - you can see that on schematics in the right bottom corner. We are using Arduino's digital output D0-D7 because they are all managed by single register (Port D). This means that we can change value of all 8 bits (D0-D7) with single assignment, for example: PODTD = B10000001 would set D0 and D7 to 1. This also means that mapping between byte value and analog output is linear, here are few examples that I've measured using oscilloscope:
 
-PORTD | Out
------|-----
-B00000001 | 22 mV
-B00000010 | 38 mV
-B00000100 | 73 mV
-B00001000 | 140 mV
-B00010000 | 276 mV
-B00100000 | 545 mV
-B01000000 | 1.08 V
-B10000000 | 2.18 V
-
-PORTD | Out 
------|-----
-B00000001 | 22 mV
-B00000011 | 56 mV
-B00000111 | 125 mV
-B00001111 | 265 mV
-B00011111 | 543 mV
-B00111111 | 1.1 V
-B01111111 | 2.23 V
-B11111111 | 4.47 V
+PORTD | Out |  | PORTD | Out |
+-----|-----|---|-----|-----
+B00000001 | 22 mV|B00000001 | 22 mV
+B00000010 | 38 mV|B00000011 | 56 mV
+B00000100 | 73 mV|B00000111 | 125 mV
+B00001000 | 140 mV|B00001111 | 265 mV
+B00010000 | 276 mV|B00011111 | 543 mV
+B00100000 | 545 mV|B00111111 | 1.1 V
+B01000000 | 1.08 V|B01111111 | 2.23 V
+B10000000 | 2.18 V|B11111111 | 4.47 V
 
 Each generated wave consist of few steps - for example sine has 120 (or 360 because there are two versions). Each step is pre-calculated and stored in an array - main loop simply goes over this array and assigns value from it to PORTD.
 

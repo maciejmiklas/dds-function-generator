@@ -47,19 +47,19 @@ Each generated wave consist of few steps - for example sine has 120 (or 360 beca
 To smooth out generated signal I've used capacitor 470pF on the output. The op-amp works as a buffer so that resistance of a device connected to the output cannot influence generated wave - capacitor would discharge faster and we would change characteristics of voltage divider.
 
 # Configuration
- Configuration
 There are four buttons:
-* Frequency Up - increase frequency
-* Frequency Down - decrease frequency
+* Frequency Up - increase frequency by offset set by Delay Step
+* Frequency Down - decrease frequency  by offset set by Delay Step
 * Delay Step - value of the step for frequency change
 * Select Wave -  you can choose from from sine 120, sine 360, square and saw
 
-Reaction on buttons is handled by interrupts, so that the main loop can concentrate on generating high frequency wave.
+Reaction on buttons is handledcale up he wby interrupts, so that the main loop can concentrate on generating high frequency wave.
 
 # Frequency adjustment
 There is a small catch... single press on Frequency Up does not necessary change the frequency by one hertz, but it changes the amount of wasted CPU cycles per step .... I will try to explain this from the beginning:
 as you remember we are generating wave by going over pre-calculated table - each byte in such table will be assigned to PORTD and this happens within a single "step". In order to plot wave we have to go over whole table, once we are done, we have to start from the beginning. In order to change frequency, we have to alter time for each step - this is the only possibility to proportionally scale up he whole wave. The smallest amount of delay in our case is the single CPU operation - it's called NOP and it takes 1327 nano seconds - NOP itself is quicker but I've also considered time required to call a method.
 For example single period of sine consist of 120 steps, increasing delay by one, would add one NOP operation to each step, meaning that single period would take additional 120 * 1327ns.
+
 The good news is, that LCD display always displays correct frequency in hertz, only pressing Up and Down buttons changes it by few hertz. The bottom line of LCD display shows period time in nano seconds.
 
 # Code Optimization

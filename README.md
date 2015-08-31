@@ -25,7 +25,7 @@ Following duty cycles are available: 10%, 20%, 30%, 50% (on screen-shot below) a
 ![square ](/doc/wave_square.jpg)
  
 ## Saw
-![square ](/doc/saw.jpg) 
+![square ](/doc/wave_saw.jpg) 
 
 # Wave Generator
  Wave Generator

@@ -29,7 +29,6 @@ Following duty cycles are available: 10%, 20%, 30%, 50% (on screen-shot below) a
 
 
 # Wave Generator
- Wave Generator
 Arduino does not have Analog to Digital converter - there is only PWM generator, but in order to generate smooth wave we need stable analog voltage. Common pattern to solve this problem is to take a few digital outputs and connect them together trough voltage divider - you can see that on schematics in the right bottom corner. We are using Arduino's digital output D0-D7 because they are all managed by single register (Port D). This means that we can change value of all 8 bits (D0-D7) with single assignment, for example: PODTD = B10000001 would set D0 and D7 to 1. This also means that mapping between byte value and analog output is linear, here are few examples that I've measured using oscilloscope:
 
 PORTD | Out |  | PORTD | Out |

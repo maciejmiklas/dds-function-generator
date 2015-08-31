@@ -3,8 +3,7 @@ DDSFunctionGenerator is 100% software based Direct Digital Synthesizer.
 The basic idea of such synthesizer is to create a software loop where each iteration will output single point of particular wave. Higher amount of points within single period increases resolution and reduces frequency - due to limited processing power.
 There is also a good motivation to optimize the code - each extra operation consumes CPU cycles and decreases maximal output frequency.
 
-![Login](/doc/dev1.jpg)
-<img src="/doc/dev1.jpg" alt="Drawing" style="width: 200px;"/>
+<img src="/doc/dev1.jpg" alt="Drawing" style="width: 50px;"/>
 ![Login](/doc/dev2.jpg)
 ![Login](/doc/dev3.jpg)
 ![Login](/fritzing/DDS Generator_schem.jpg)

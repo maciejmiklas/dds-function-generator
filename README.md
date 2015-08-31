@@ -4,6 +4,7 @@ The basic idea of such synthesizer is to create a software loop where each itera
 There is also a good motivation to optimize the code - each extra operation consumes CPU cycles and decreases maximal output frequency.
 
 ![Login](/doc/dev1.jpg)
+<img src="/doc/dev1.jpg" alt="Drawing" style="width: 200px;"/>
 ![Login](/doc/dev2.jpg)
 ![Login](/doc/dev3.jpg)
 ![Login](/fritzing/DDS Generator_schem.jpg)

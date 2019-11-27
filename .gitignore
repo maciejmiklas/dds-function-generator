@@ -1,9 +1,8 @@
 /Release
-.idea
-*.iml
-target
+/target
 /.cproject
-libraries
-core
-.settings
-spec.d
+/libraries
+/core
+/.settings
+/spec.d
+/.project

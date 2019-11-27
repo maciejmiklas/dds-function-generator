@@ -2,3 +2,7 @@
 .idea
 *.iml
 target
+/.cproject
+libraries
+core
+.settings

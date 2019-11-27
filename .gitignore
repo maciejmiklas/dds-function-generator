@@ -6,3 +6,4 @@ target
 libraries
 core
 .settings
+spec.d
